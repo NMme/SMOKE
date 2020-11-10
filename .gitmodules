@@ -1,3 +1,3 @@
-[submodule "smoke/DCNv2"]
-	path = smoke/DCNv2
+[submodule "smoke/layers/DCNv2"]
+	path = smoke/layers/DCNv2
 	url = https://github.com/CharlesShang/DCNv2
