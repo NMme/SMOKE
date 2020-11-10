@@ -305,7 +305,7 @@ class DLABase(nn.Module):
 
         self.level1 = _make_conv_level(in_channels=channels[0],
                                        out_channels=channels[1],
-                                       num_convs=levels[0],
+                                       num_convs=levels[1],
                                        norm_func=norm_func,
                                        stride=2)
 
