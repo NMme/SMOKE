@@ -1,7 +1,7 @@
 import torch.nn.functional as F
 from torch import nn
 
-from smoke.layers.dcn_v2 import DCN
+from smoke.layers.DCNv2.dcn_v2 import DCN
 
 
 class DeformConv(nn.Module):
