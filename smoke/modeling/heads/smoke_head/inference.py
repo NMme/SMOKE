@@ -86,7 +86,7 @@ class PostProcessor(nn.Module):
                 target_varibales["size"]
             )
         else:
-            box2d = torch.tensor([0, 0, 0, 0])
+            box2d = torch.zeros((self.max_detection, 4))
 
         # change variables to the same dimension
         clses = clses.view(-1, 1)
