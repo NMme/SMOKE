@@ -1,3 +1,6 @@
 [submodule "smoke/layers/DCNv2"]
 	path = smoke/layers/DCNv2
 	url = https://github.com/CharlesShang/DCNv2
+[submodule "smoke/data/datasets/evaluation/kitti/kitti_eval"]
+	path = smoke/data/datasets/evaluation/kitti/kitti_eval
+	url = https://github.com/prclibo/kitti_eval

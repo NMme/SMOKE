@@ -43,8 +43,8 @@ def select_topk(heat_map, K=100):
     topk_ys = (topk_inds_all / width).float()
     topk_xs = (topk_inds_all % width).float()
 
-    assert isinstance(topk_xs, torch.cuda.FloatTensor)
-    assert isinstance(topk_ys, torch.cuda.FloatTensor)
+    assert isinstance(topk_xs, (torch.cuda.FloatTensor, torch.FloatTensor))
+    assert isinstance(topk_ys, (torch.cuda.FloatTensor, torch.FloatTensor))
 
     # Select topK examples across channel
     # [N, C, K] -----> [N, C*K]
@@ -53,7 +53,7 @@ def select_topk(heat_map, K=100):
     topk_scores, topk_inds = torch.topk(topk_scores_all, K)
     topk_clses = (topk_inds / K).float()
 
-    assert isinstance(topk_clses, torch.cuda.FloatTensor)
+    assert isinstance(topk_clses, (torch.cuda.FloatTensor, torch.FloatTensor))
 
     # First expand it as 3 dimension
     topk_inds_all = _gather_feat(topk_inds_all.view(batch, -1, 1), topk_inds).view(batch, K)
