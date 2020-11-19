@@ -1,11 +1,14 @@
-# SMOKE: Single-Stage Monocular 3D Object Detection via Keypoint Estimation
+# SMOKE: Single-Stage Monocular 3D Object Detection via Keypoint Estimation -Fork for CPU only mode
 
 <img align="center" src="figures/animation.gif" width="750">
 
 [Video](https://www.youtube.com/watch?v=pvM_bASOQmo)
 
-This repository is the official implementation of our paper [SMOKE: Single-Stage Monocular 3D Object Detection via Keypoint Estimation](https://arxiv.org/pdf/2002.10111.pdf).
-For more details, please see our paper.
+This repository is a fork of the official implementation of the paper [SMOKE: Single-Stage Monocular 3D Object Detection via Keypoint Estimation](https://arxiv.org/pdf/2002.10111.pdf).
+In addition it adds pytorch-cpu-only support for testing purposes and includes required repositories as sub-modules.
+For more details, please see the paper.
+
+Requires pytorch 1.4.0
 
 ## Introduction
 SMOKE is a **real-time** monocular 3D object detector for autonomous driving. 
@@ -82,7 +85,7 @@ For single GPU training, simply run:
 python tools/plain_train_net.py --config-file "configs/smoke_gn_vector.yaml"
 ```
 
-We currently only support single GPU testing:
+We currently only support single GPU testing (use this for the CPU-only testing also):
 ```
 python tools/plain_train_net.py --eval-only --config-file "configs/smoke_gn_vector.yaml"
 ```
@@ -96,7 +99,7 @@ python tools/plain_train_net.py --eval-only --config-file "configs/smoke_gn_vect
 
 
 ## Citations
-Please cite our paper if you find SMOKE is helpful for your research.
+Please cite the paper if you find SMOKE is helpful for your research.
 ```
 @article{liu2020SMOKE,
   title={{SMOKE}: Single-Stage Monocular 3D Object Detection via Keypoint Estimation},
