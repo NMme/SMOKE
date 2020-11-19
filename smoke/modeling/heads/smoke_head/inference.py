@@ -33,22 +33,26 @@ class PostProcessor(nn.Module):
                     size=size)
 
     def forward(self, predictions, targets):
+        # get Head-outputs
         pred_heatmap, pred_regression = predictions[0], predictions[1]
         batch = pred_heatmap.shape[0]
 
         target_varibales = self.prepare_targets(targets)
 
+        # apply non-maximum suppression to heatmap
         heatmap = nms_hm(pred_heatmap)
 
+        # get the top K scores across all classes in heatmap
         scores, indexs, clses, ys, xs = select_topk(
             heatmap,
             K=self.max_detection,
         )
 
-        pred_regression = select_point_of_interest(
+        # get the regression-head output for selected top K scores in heatmap
+        pred_regression_pois = select_point_of_interest(
             batch, indexs, pred_regression
         )
-        pred_regression_pois = pred_regression.view(-1, self.reg_head)
+        pred_regression_pois = pred_regression_pois.view(-1, self.reg_head)
 
         pred_proj_points = torch.cat([xs.view(-1, 1), ys.view(-1, 1)], dim=1)
         # FIXME: fix hard code here

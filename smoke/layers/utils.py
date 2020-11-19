@@ -10,6 +10,15 @@ def sigmoid_hm(hm_features):
 
 
 def nms_hm(heat_map, kernel=3):
+    """
+    Non-maximum suppression
+    Args:
+        heat_map: heat_map in
+        kernel: kernel_size
+
+    Returns:
+        heat_map only containing local maxima
+    """
     pad = (kernel - 1) // 2
 
     hmax = F.max_pool2d(heat_map,
@@ -22,15 +31,19 @@ def nms_hm(heat_map, kernel=3):
 
 
 def select_topk(heat_map, K=100):
-    '''
+    """
     Args:
         heat_map: heat_map in [N, C, H, W]
         K: top k samples to be selected
         score: detection threshold
 
     Returns:
-
-    '''
+        topk_scores [N, K]: Top K scores across all classes
+        topk_inds_all [N, K]: Indices of top K scores in heat_map image plane (H x W)
+        topk_clses [N, K]: Class of top K scores (channel C in heat_map)
+        topk_ys [N, K]: y-position of top K scores in heat_map image plane
+        topk_xs [N, K]: x-position of top K scores in heat_map image plane
+    """
     batch, cls, height, width = heat_map.size()
 
     # First select topk scores in all classes and batchs
@@ -64,15 +77,15 @@ def select_topk(heat_map, K=100):
 
 
 def _gather_feat(feat, ind):
-    '''
+    """
     Select specific indexs on featuremap
     Args:
         feat: all results in 3 dimensions
         ind: positive index
 
     Returns:
-
-    '''
+        selected features
+    """
     channel = feat.size(-1)
     ind = ind.unsqueeze(-1).expand(ind.size(0), ind.size(1), channel)
     feat = feat.gather(1, ind)
@@ -81,19 +94,19 @@ def _gather_feat(feat, ind):
 
 
 def select_point_of_interest(batch, index, feature_maps):
-    '''
+    """
     Select POI(point of interest) on feature map
     Args:
         batch: batch size
-        index: in point format or index format
+        index: in point format or index format [N, K]
         feature_maps: regression feature map in [N, C, H, W]
 
     Returns:
-
-    '''
-    w = feature_maps.shape[3]
+        feature_maps [N, K, C]: selected POI
+    """
+    width = feature_maps.shape[3]
     if len(index.shape) == 3:
-        index = index[:, :, 1] * w + index[:, :, 0]
+        index = index[:, :, 1] * width + index[:, :, 0]
     index = index.view(batch, -1)
     # [N, C, H, W] -----> [N, H, W, C]
     feature_maps = feature_maps.permute(0, 2, 3, 1).contiguous()
